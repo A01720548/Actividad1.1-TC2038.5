@@ -19,5 +19,6 @@ int main()
     {
         cin >> num;
         vec.push_back(num);
+        cout << vec[i] << endl;
     }
 }
