@@ -6,6 +6,7 @@ using namespace std;
 
 vector<double> vec;
 
+Complejidad: O(n)
 vector<double> merge(vector<double> left, vector<double> right)
 {
     vector<double> result;
@@ -40,6 +41,7 @@ vector<double> merge(vector<double> left, vector<double> right)
     return result;
 }
 
+Complejidad: O(logn)
 vector<double> mergeSort(vector<double> n)
 {
     if (n.size() <= 1)
@@ -64,6 +66,7 @@ vector<double> mergeSort(vector<double> n)
     return result;
 }
 
+Complejidad: O(nlogn)
 int main()
 {
 
