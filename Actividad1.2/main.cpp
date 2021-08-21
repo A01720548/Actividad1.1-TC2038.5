@@ -1,62 +1,74 @@
-// g++ main.cpp -o main.exe
-// main.exe < in.txt
 #include <iostream>
-#include <vector>
-#include <bits/stdc++.h>
 using namespace std;
 
-vector<int> coins;
-int product;
-int paid;
+int main(){
+  int coins, value, change, productPrice, money;
 
-vector<int> greed(int product, int paid)
-{
-    int change = paid - product;
-    // cout << change << endl;
-    int i = 0;
-    vector<int> coinsUsed;
-    // cout << coins[i] << endl;
+  cout << "Total de monedas distintas: " << endl;
+  cin >> coins;
 
-    while (change > 0)
-    {
-        if (change >= coins[i])
-        {
-            change -= coins[i];
-            coinsUsed.push_back(coins[i]);
-        }
-        else
-            i++;
+  int changeOpt[coins];
+
+  cout << "Valores de las monedas: " << endl;
+  for (int i = 0; i < coins; i++){
+    cin >> value;
+    changeOpt[i] = value;
+  }
+
+  cout << "Precio del producto: " << endl;
+  cin >> productPrice;
+
+  cout << "Cantidad de dinero: " << endl;
+  cin >> money;
+
+  change = money - productPrice;
+
+  int dynamic[change+1][change+1];
+
+  for (int i = 0; i<= change; i++){
+    for (int j = 0; j<= change; j++){
+      dynamic[i][j] = 0;
     }
+  }
 
-    return coinsUsed;
+  for (int i = 1; i <= change; i++){
+    dynamic[i][0] = change+1;
+  }
+
+
+  for (int i = 1; i <= change; i++){
+    for (int j = 0; j < coins; j++){
+      int temporaryCoins = 0;
+      if ((i - changeOpt[j]) >= 0){
+        temporaryCoins = 1 + dynamic[i - changeOpt[j]][0];
+        if (temporaryCoins < dynamic[i][0]){
+          dynamic[i][0] = temporaryCoins;
+          dynamic[i][1] = changeOpt[j];
+          for (int k = 2; k <= change; k++){
+            dynamic[i][k] = dynamic[i - changeOpt[j]][k-1];
+          }
+        } 
+      }
+    }
+  }
+
+  cout << "Cambio = " << change << endl;
+  cout << endl;
+  cout << "Resultado DP" << endl;
+  cout << endl;
+
+  for(int i = 0; i < coins; i++){
+    int counter = 0;
+    for(int j = 1; j <= change; j++){
+      if(dynamic[change][j] == changeOpt[i]){
+        counter++;
+      }
+  }
+    cout << changeOpt[i] << " " << counter << endl;
+    cout << endl;
+    counter = 0;
+  }
+
+
+  return 0;
 }
-
-int main()
-{
-    int n;
-    cin >> n;
-    int num;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> num;
-        coins.push_back(num);
-    }
-
-    sort(coins.begin(), coins.end(), greater<int>());
-    cin >> product;
-    cin >> paid;
-
-    cout << "Product Cost: " << product << endl;
-    cout << "Amount Paid: " << paid << endl;
-
-    vector<int> result = greed(product, paid);
-    cout << "Coins Used: ";
-    for (int i = 0; i < result.size(); i++)
-    {
-        cout << result[i] << " ";
-    }
-}
-
-// Se necesitan 1 moneda para alcanzar el valor de 3.
-// Resultado = Valor en indice - ValorMonedaUtilizar = 3 - 3 = 0
-// Cantidad de monedas a utilizar = CantidadMonedasParaResultado + 1 = 0+1 = 1
