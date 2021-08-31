@@ -2,6 +2,7 @@
 // main.exe < in.txt
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
 vector<vector<int>> maze, solBack, solBB;
@@ -81,18 +82,58 @@ void backTracking()
         cout << "No solution found";
 }
 
-bool branchAndBoundRecursive(vector<vector<int>> &sol, int x, int y)
-{
-    // Check if is solution
-    if (x == n - 1 && y == m - 1 && maze[x][y] == 1)
-    {
-        sol[x][y] = 1;
-        return true;
-    }
-}
-
 void branchAndBound()
 {
+    queue<int> x, y;
+    int i = 0;
+    int j = 0;
+
+    x.push(i);
+    y.push(j);
+    print(solBB);
+
+    int posX, posY;
+    while (!x.empty() && !y.empty())
+    {
+        posX = x.front();
+        x.pop();
+        posY = y.front();
+        y.pop();
+        solBB[posX][posY] = 1;
+
+        print(solBB);
+        if (posX < n && posY >= 0 && posY >= 0 && posY < m)
+        {
+            if (maze[i][j + 1] == 1)
+            {
+                x.push(i);
+                y.push(j);
+                j++;
+            }
+            if (maze[i + 1][j] == 1)
+            {
+                x.push(i);
+                y.push(j);
+                i++;
+            }
+            if (maze[i][j - 1] == 1)
+            {
+                x.push(i);
+                y.push(j);
+                j--;
+            }
+            if (maze[i - 1][j] == 1)
+            {
+                x.push(i);
+                y.push(j);
+                i--;
+            }
+            x.pop();
+            y.pop();
+        }
+        x.pop();
+        y.pop();
+    }
 }
 
 int main()
@@ -116,5 +157,6 @@ int main()
     }
 
     print(maze);
-    backTracking();
+    // backTracking();
+    branchAndBound();
 }
