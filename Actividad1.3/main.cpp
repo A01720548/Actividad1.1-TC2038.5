@@ -5,6 +5,7 @@
 using namespace std;
 
 vector<vector<int>> maze, solBack, solBB;
+int n, m;
 
 void print(vector<vector<int>> vec)
 {
@@ -18,27 +19,102 @@ void print(vector<vector<int>> vec)
     }
 }
 
-int main()
+bool exists(int x, int y)
 {
-    int n, m;
-    cin >> n;
-    cin >> m;
-    vector<int> vec(m);
-    cout << "n= " << n << " m= " << m << endl;
-    for (int i = 0; i < n; i++)
+
+    if (x < n && x >= 0 && y < m && y >= 0 && maze[x][y] == 1)
+        return true;
+    else
+        return false;
+}
+
+bool backTrackingRecursive(vector<vector<int>> &sol, int x, int y)
+{
+    // Check if is solution
+    if (x == n - 1 && y == m - 1 && maze[x][y] == 1)
     {
-        maze.push_back(vec);
-        for (int j = 0; j < m; j++)
-            cin >> maze[i][j];
+        sol[x][y] = 1;
+        return true;
     }
 
-    print(maze);
+    if (exists(x, y))
+    {
+        // Is already part of solution
+        if (sol[x][y] == 1)
+        {
+            return false;
+        }
+
+        sol[x][y] = 1;
+
+        // Try to Move right
+        if (backTrackingRecursive(sol, x + 1, y) == true)
+            return true;
+
+        // Try to Move downwards
+        if (backTrackingRecursive(sol, x, y + 1) == true)
+            return true;
+
+        // Try to Move up
+        if (backTrackingRecursive(sol, x, y - 1) == true)
+            return true;
+
+        // Try to Move left
+        if (backTrackingRecursive(sol, x - 1, y) == true)
+            return true;
+
+        sol[x][y] = 0;
+        return false;
+    }
+    return false;
 }
 
 void backTracking()
 {
+    // cout << backTrackingRecursive(solBack, 0, 0);
+    if (backTrackingRecursive(solBack, 0, 0) == true)
+    {
+        cout << "Backtracking Solution: " << endl;
+        print(solBack);
+    }
+    else
+        cout << "No solution found";
+}
+
+bool branchAndBoundRecursive(vector<vector<int>> &sol, int x, int y)
+{
+    // Check if is solution
+    if (x == n - 1 && y == m - 1 && maze[x][y] == 1)
+    {
+        sol[x][y] = 1;
+        return true;
+    }
 }
 
 void branchAndBound()
 {
+}
+
+int main()
+{
+    cin >> n;
+    cin >> m;
+    vector<int> vec(m);
+
+    cout << "n= " << n << " m= " << m << endl;
+    for (int i = 0; i < n; i++)
+    {
+        maze.push_back(vec);
+        solBack.push_back(vec);
+        solBB.push_back(vec);
+        for (int j = 0; j < m; j++)
+        {
+            cin >> maze[i][j];
+            solBack[i][j] = 0;
+            solBB[i][j] = 0;
+        }
+    }
+
+    print(maze);
+    backTracking();
 }
