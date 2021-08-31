@@ -82,7 +82,15 @@ void backTracking()
         cout << "No solution found";
 }
 
-void branchAndBound()
+bool BBChecker(int x, int y)
+{
+    if (x >= 0 && x < m && y >= 0 && y < n && maze[y][x] == 1 && solBB[y][x] == 0)
+        return true;
+    else
+        return false;
+}
+
+void branchAndBound(vector<vector<int>> &sol)
 {
     queue<int> x, y;
     int i = 0;
@@ -90,50 +98,43 @@ void branchAndBound()
 
     x.push(i);
     y.push(j);
-    print(solBB);
 
-    int posX, posY;
-    while (!x.empty() && !y.empty())
+    int i2, j2;
+    while (!(i == m) && !(j == n) && !x.empty() && !y.empty())
     {
-        posX = x.front();
+        i = x.front();
         x.pop();
-        posY = y.front();
+        j = y.front();
         y.pop();
-        solBB[posX][posY] = 1;
+        sol[j][i] = 1;
 
-        print(solBB);
-        if (posX < n && posY >= 0 && posY >= 0 && posY < m)
+        if (BBChecker(i + 1, j))
         {
-            if (maze[i][j + 1] == 1)
-            {
-                x.push(i);
-                y.push(j);
-                j++;
-            }
-            if (maze[i + 1][j] == 1)
-            {
-                x.push(i);
-                y.push(j);
-                i++;
-            }
-            if (maze[i][j - 1] == 1)
-            {
-                x.push(i);
-                y.push(j);
-                j--;
-            }
-            if (maze[i - 1][j] == 1)
-            {
-                x.push(i);
-                y.push(j);
-                i--;
-            }
-            x.pop();
-            y.pop();
+            i2 = i + 1;
+            x.push(i2);
+            y.push(j);
         }
-        x.pop();
-        y.pop();
+        if (BBChecker(i, j + 1))
+        {
+            j2 = j + 1;
+            x.push(i);
+            y.push(j2);
+        }
+        if (BBChecker(i - 1, j))
+        {
+            i2 = i - 1;
+            x.push(i2);
+            y.push(j);
+        }
+        if (BBChecker(i, j - 1))
+        {
+            j2 = j - 1;
+            x.push(i);
+            y.push(j2);
+        }
     }
+    cout << "Solucion Branch and Bound: " << endl;
+    print(solBB);
 }
 
 int main()
@@ -158,5 +159,5 @@ int main()
 
     print(maze);
     // backTracking();
-    branchAndBound();
+    branchAndBound(solBB);
 }
