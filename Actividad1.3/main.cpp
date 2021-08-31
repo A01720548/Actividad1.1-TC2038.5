@@ -90,7 +90,7 @@ bool BBChecker(int x, int y)
         return false;
 }
 
-void branchAndBound(vector<vector<int>> &sol)
+void branchAndBound()
 {
     queue<int> x, y;
     int i = 0;
@@ -106,7 +106,7 @@ void branchAndBound(vector<vector<int>> &sol)
         x.pop();
         j = y.front();
         y.pop();
-        sol[j][i] = 1;
+        solBB[j][i] = 1;
 
         if (BBChecker(i + 1, j))
         {
@@ -158,6 +158,6 @@ int main()
     }
 
     print(maze);
-    // backTracking();
-    branchAndBound(solBB);
+    backTracking();
+    branchAndBound();
 }
