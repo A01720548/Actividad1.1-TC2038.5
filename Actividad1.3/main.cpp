@@ -7,7 +7,7 @@ using namespace std;
 
 vector<vector<int>> maze, solBack, solBB;
 int n, m;
-
+// Complexity: O(n^2)
 void print(vector<vector<int>> vec)
 {
     for (int i = 0; i < vec.size(); i++)
@@ -28,8 +28,8 @@ bool exists(int x, int y)
     else
         return false;
 }
-
-bool backTrackingRecursive(vector<vector<int>> &sol, int x, int y)
+// Complexity: O(n^2)
+bool backTrackingRecursive(vector<vector<int>>& sol, int x, int y)
 {
     // Check if is solution
     if (x == n - 1 && y == m - 1 && maze[x][y] == 1)
@@ -89,7 +89,7 @@ bool BBChecker(int x, int y)
     else
         return false;
 }
-
+// Complexity: O(n^2)
 void branchAndBound()
 {
     queue<int> x, y;
