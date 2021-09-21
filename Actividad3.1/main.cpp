@@ -5,6 +5,9 @@
 #include "Trie.h"
 using namespace std;
 
+
+// Search and insertion Time complexity: O(m)
+
 int main() {
     int n;
     cin >> n;
