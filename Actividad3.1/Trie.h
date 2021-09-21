@@ -11,25 +11,13 @@ private:
 public:
     TrieNode* root;
     Trie();
-    TrieNode* newNode();
     void insert(string);
     bool search(string);
 };
 
 Trie::Trie()
 {
-    root = newNode();
-}
-
-TrieNode* Trie::newNode()
-{
-    TrieNode* n = new TrieNode();
-    n->isEnd = false;
-    for (int i = 0; i < 26; i++)
-    {
-        n->children[i] = NULL;
-    }
-    return n;
+    root = new TrieNode();
 }
 
 void Trie::insert(string word)
@@ -39,7 +27,7 @@ void Trie::insert(string word)
     for (auto letter : word) {
         index = letter - 'a';
         if (!current->children[index]) {
-            current->children[index] = newNode();
+            current->children[index] = new TrieNode();
         }
         current = current->children[index];
     }
@@ -61,6 +49,5 @@ bool Trie::search(string word)
     return current->isEnd;
 
 }
-
 
 #endif // __TRIE_H__

@@ -20,6 +20,7 @@ int main() {
     cin >> n;
     for (int i = 0; i < n; i++) {
         cin >> word;
+        cout << word << " ";
         trie.search(word) ? cout << "Found" << endl : cout << "Not Found" << endl;
     }
 
