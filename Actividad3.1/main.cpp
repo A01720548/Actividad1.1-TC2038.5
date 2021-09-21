@@ -5,8 +5,6 @@
 #include "Trie.h"
 using namespace std;
 
-
-
 int main() {
     int n;
     cin >> n;
@@ -23,6 +21,4 @@ int main() {
         cout << word << " ";
         trie.search(word) ? cout << "Found" << endl : cout << "Not Found" << endl;
     }
-
-
 }
