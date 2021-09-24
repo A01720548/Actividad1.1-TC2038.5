@@ -5,6 +5,7 @@
 using namespace std;
 #define INF 999999
 
+// Complexity O(n^2)
 void print(vector<vector<int>>& a) {
     for (int i = 0; i < a.size(); i++)
     {
@@ -17,6 +18,8 @@ void print(vector<vector<int>>& a) {
     }
 
 }
+
+// Complexity O(n^3)
 void floyd(vector<vector<int>>& graph) {
     for (int i = 0; i < graph.size(); i++) {
         for (int j = 0; j < graph.size(); j++) {
@@ -29,6 +32,7 @@ void floyd(vector<vector<int>>& graph) {
     }
 }
 
+// Complexity O(n)
 int minDist(vector<int>& dist, vector<bool>& visited) {
     int min = INF, index;
     for (int i = 0; i < dist.size(); i++)
@@ -42,6 +46,7 @@ int minDist(vector<int>& dist, vector<bool>& visited) {
 
 }
 
+// Complexity O(n^2)
 void dijkstra(vector<vector<int>>& graph, int initial, vector<int>& dist) {
     vector<bool> visited(dist.size());
     int u;
@@ -65,7 +70,6 @@ void dijkstra(vector<vector<int>>& graph, int initial, vector<int>& dist) {
 
 
 }
-
 
 
 int main() {
