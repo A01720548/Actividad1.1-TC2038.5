@@ -66,8 +66,8 @@ vector<double> mergeSort(vector<double> n)
     return result;
 }
 
-// Complejidad : O(nlogn) int main()
-{
+// Complejidad : O(nlogn) 
+int main() {
 
     vector<double> result;
     int n;
