@@ -12,10 +12,11 @@ struct Point {
 vector<Point> arr;
 vector<Point> temp;
 
+// Complejidiad: O(1)
 float dist(Point p1, Point p2) {
     return sqrt(pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2));
 }
-
+// Complejidad: O(n^2)
 float bruteForce(vector<Point> points) {
     float minValue = INT_MAX;
     float temp;
@@ -35,6 +36,7 @@ float bruteForce(vector<Point> points) {
     return minValue;
 }
 
+// Complejidad: O(1)
 float closestR(vector<Point>& points) {
     int n = points.size();
     if (n <= 3) {
@@ -46,6 +48,7 @@ float closestR(vector<Point>& points) {
     return min(closestR(XL), closestR(XR));
 }
 
+// Complejidad: O(n)
 float closest(vector<Point>& points) {
     arr = points;
     temp = arr;
@@ -56,10 +59,6 @@ float closest(vector<Point>& points) {
     mergeSort(n);
     return closestR(points);
 }
-
-
-
-
 
 // Complejidad: O(n)
 vector<int> merge(vector<int> left, vector<int> right)
