@@ -1,5 +1,14 @@
-// g++ main.cpp -o main.exe
-// main.exe < in.txt
+/**
+ * @file main.cpp
+ * @author Esteban de la Maza, Andres Guerra
+ * @brief Actividad 4.2
+ * @version 0.1
+ * @date 2021-11-04
+ *
+ * @copyright Copyright (c) 2021
+ *
+ */
+
 #include <iostream>
 #include <bits/stdc++.h>
 using namespace std;
@@ -12,11 +21,11 @@ struct Point {
 vector<Point> arr;
 vector<Point> temp;
 
-// Complejidiad: O(1)
+// Complexity: O(1)
 float dist(Point p1, Point p2) {
     return sqrt(pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2));
 }
-// Complejidad: O(n^2)
+// Complexity: O(n^2)
 float bruteForce(vector<Point> points) {
     float minValue = INT_MAX;
     float temp;
@@ -35,92 +44,67 @@ float bruteForce(vector<Point> points) {
     }
     return minValue;
 }
+// Complexity: O(logn)
+void Merge(int l, int m, int r) {
+    int i = l, j = m + 1, k = l;
+    while (i <= m && j <= r) {
+        if (arr[i].x <= arr[j].x) {
+            temp[k] = arr[i];
+            i++;
+            k++;
+        }
+        else {
+            temp[k] = arr[j];
+            j++;
+            k++;
+        }
+    }
+    while (i <= m) {
+        temp[k] = arr[i];
+        i++;
+        k++;
+    }
+    while (j <= r) {
+        temp[k] = arr[j];
+        j++;
+        k++;
+    }
+    for (int p = l; p <= r; p++) {
+        arr[p] = temp[p];
+    }
+}
+// Complexity: O(n)
+void MergeSort(int l, int r) {
+    if (l < r) {
+        int m = (l + r) / 2;
+        MergeSort(l, m);
+        MergeSort(m + 1, r);
+        Merge(l, m, r);
+    }
+}
 
-// Complejidad: O(1)
-float closestR(vector<Point>& points) {
-    int n = points.size();
+// Complexity: O(1)
+float closestR(vector<Point>& points) { //O(3)
+    int n = points.size(), mitad;
     if (n <= 3) {
         return bruteForce(points);
     }
-    int middle = n / 2;
-    vector<Point> XL(points.begin(), points.begin() + middle);
-    vector<Point> XR(points.begin() + middle, points.end());
+    mitad = n / 2;
+    vector<Point> XL(points.begin(), points.begin() + mitad);
+    vector<Point> XR(points.begin() + mitad, points.end());
     return min(closestR(XL), closestR(XR));
 }
 
-// Complejidad: O(n)
+// Complexity: O(n)
 float closest(vector<Point>& points) {
+    int n = points.size();
     arr = points;
     temp = arr;
-    vector<int> n;
-    for (auto x : points) {
-        n.push_back(x.x);
-    }
-    mergeSort(n);
-    return closestR(points);
+    MergeSort(0, n - 1);
+    return closestR(arr);
 }
 
-// Complejidad: O(n)
-vector<int> merge(vector<int> left, vector<int> right)
-{
-    vector<int> result;
-    while ((int)left.size() > 0 || (int)right.size() > 0)
-    {
-        if ((int)left.size() > 0 && (int)right.size() > 0)
-        {
-            if ((int)left.front() >= (int)right.front())
-            {
-                result.push_back((int)left.front());
-                left.erase(left.begin());
-            }
-            else
-            {
-                result.push_back((int)right.front());
-                right.erase(right.begin());
-            }
-        }
-        else if ((int)left.size() > 0)
-        {
-            for (int i = 0; i < (int)left.size(); i++)
-                result.push_back(left[i]);
-            break;
-        }
-        else if ((int)right.size() > 0)
-        {
-            for (int i = 0; i < (int)right.size(); i++)
-                result.push_back(right[i]);
-            break;
-        }
-    }
-    return result;
-}
-
-// Complejidad : O(logn)
-vector<int> mergeSort(vector<int> n)
-{
-
-    if (n.size() <= 1)
-        return n;
-    vector<int> left, right, result;
-    int middle = ((int)n.size() + 1) / 2;
-
-    for (int i = 0; i < middle; i++)
-    {
-        left.push_back(n[i]);
-    }
-
-    for (int i = middle; i < (int)n.size(); i++)
-    {
-        right.push_back(n[i]);
-    }
-
-    left = mergeSort(left);
-    right = mergeSort(right);
-    result = merge(left, right);
-
-    return result;
-}
-
+// Complexity: O(n^2)
 int main() {
     int n;
     cin >> n;
@@ -129,7 +113,7 @@ int main() {
         cin >> points[i].x >> points[i].y;
 
     }
-
     cout << "Brute Force: " << bruteForce(points) << endl;
     cout << "The closest points are: " << u + 1 << " and " << v + 1 << endl;
+    cout << "The smallest distance is: " << closest(points) << endl;
 }
