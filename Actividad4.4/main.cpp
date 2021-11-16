@@ -22,28 +22,35 @@ int getRandom(int left, int right) {
 
 // Complexity: O(logN)
 int iterativeRBS(vector<int> vec, int x) {
-    cout << "Iterative Version:";
+    cout << "Iterative Version: ";
     int left = 0, right = vec.size() - 1;
     int middle;
-    int i = 0;
+    int iterationsCounter = 0;
+    int retval = -1;
     while (left <= right) {
-        cout << "Iterative" << endl;
-        i++;
+        iterationsCounter++;
         middle = getRandom(left, right);
-        if (vec[middle] == x) return middle;
+        if (vec[middle] == x) {
+            retval = middle;
+            break;
+        }
         else if (vec[middle] < x) left = middle + 1;
         else right = middle - 1;
     }
-    return -1;
+    cout << iterationsCounter << " iterations were evaluated, ";
+    return retval;
 }
 // Complexity: O(logN)
-int recursiveRBS(vector<int> vec, int x, int left, int right) {
-    cout << "Recursive" << endl;
+int recursiveRBS(vector<int> vec, int x, int left, int right, int iterationsCounter) {
+    iterationsCounter++;
     if (left > right) return -1;
     int middle = getRandom(left, right);
-    if (vec[middle] == x) return middle;
-    else if (x > vec[middle]) return recursiveRBS(vec, x, middle + 1, right);
-    else return recursiveRBS(vec, x, left, middle - 1);
+    if (vec[middle] == x) {
+        cout << iterationsCounter << " iterations were evaluated, ";
+        return middle;
+    }
+    else if (x > vec[middle]) return recursiveRBS(vec, x, middle + 1, right, iterationsCounter);
+    else return recursiveRBS(vec, x, left, middle - 1, iterationsCounter);
 }
 
 int main() {
@@ -60,7 +67,8 @@ int main() {
     if (idx != -1) cout << "Element found at position: " << idx + 1 << endl;
     else cout << "Element not found" << endl;
 
-    idx = recursiveRBS(vec, x, 0, vec.size() - 1);
+    cout << "Recursive Version: ";
+    idx = recursiveRBS(vec, x, 0, vec.size() - 1, 0);
     if (idx != -1) cout << "Element found at position: " << idx + 1 << endl;
     else cout << "Element not found" << endl;
 }
