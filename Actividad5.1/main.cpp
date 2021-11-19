@@ -67,7 +67,8 @@ void tracePath(vector<vector<Cell>>& cells, Cell destination) {
     while (!st.empty()) {
         c = st.top();
         st.pop();
-        cout << '(' << c.row << " , " << c.col << ") -> ";
+        if (!st.empty()) cout << '(' << c.row << " , " << c.col << ") -> ";
+        else cout << '(' << c.row << " , " << c.col << ")";
     }
     cout << endl;
 }
