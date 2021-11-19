@@ -29,22 +29,27 @@ public:
     }
 };
 
+// Complexity: O(1)
 bool isValid(vector<vector<int>> matrix, Cell c) {
     return c.row > -1 && c.col > -1 && c.row < matrix.size() && c.col < matrix[0].size();
 }
 
+// Complexity: O(1)
 bool isBlocked(vector<vector<int>> matrix, Cell c) {
     return matrix[c.row][c.col] == 0;
 }
 
+// Complexity: O(1)
 bool isDestination(Cell destination, Cell c) {
     return destination.row == c.row && destination.col == c.col;
 }
 
+// Complexity: O(1)
 double calculateHValue(Cell destination, Cell c) {
     return destination.distance(c);
 }
 
+// Complexity: O(n)
 void tracePath(vector<vector<Cell>>& cells, Cell destination) {
     stack<Cell> st;
     int row = destination.row;
@@ -62,11 +67,12 @@ void tracePath(vector<vector<Cell>>& cells, Cell destination) {
     while (!st.empty()) {
         c = st.top();
         st.pop();
-        cout << c.row << ' ' << c.col << " - ";
+        cout << '(' << c.row << " , " << c.col << ") -> ";
     }
     cout << endl;
 }
 
+// Complexity: O(n)
 bool visitCell(vector<vector<int>>& matrix, vector < vector<Cell>>& cells, vector<vector<bool>>& closed, set<Pair>& open, Cell destination, int row, int col, int parentRow, int parentCol) {
     bool success = false;
     double newF, newG, newH;
@@ -92,6 +98,7 @@ bool visitCell(vector<vector<int>>& matrix, vector < vector<Cell>>& cells, vecto
 }
 
 
+// Complexity: O(n)
 void ASearch(vector<vector<int>>& matrix, Cell origin, Cell destination) {
     if (!isValid(matrix, origin) || !isValid(matrix, destination)) {
         cout << "Origin or Destination arent valid" << endl;
@@ -156,6 +163,8 @@ void ASearch(vector<vector<int>>& matrix, Cell origin, Cell destination) {
     }
     cout << "Didnt reach destination" << endl;
 }
+
+// Complexity: O(n^2)
 int main() {
     Cell origin, destination;
     int n, m;
@@ -170,5 +179,4 @@ int main() {
     }
     cin >> origin.row >> origin.col >> destination.row >> destination.col;
     ASearch(matrix, origin, destination);
-
 }
